@@ -1,5 +1,20 @@
-<app-nav></app-nav>>
+<app-nav (viewChanged)="onViewChanged($event)"></app-nav>
 
 <div class="container" style="margin-top: 100px;">
-    <app-home></app-home>
+    <ng-container [ngSwitch]="currentView">
+
+        <app-home *ngSwitchCase="'products'"></app-home>
+    
+        <div *ngSwitchCase="'about'">
+          <h2>O nas</h2>
+          <h3>Witamy w naszym sklepie!</h3>
+          <p>Oferujemy najlepsze produkty elektroniczne w konkurencyjnych cenach. Naszym celem jest dostarczenie klientom najwyższej jakości usług i produktów.</p>
+          <p>Dziękujemy za zaufanie!</p>
+        </div>
+    
+        <div *ngSwitchDefault>
+          <p>Wybierz widok.</p>
+        </div>
+    
+      </ng-container>
 </div>

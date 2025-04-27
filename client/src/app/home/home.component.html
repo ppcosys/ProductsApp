@@ -1,6 +1,12 @@
 <div class="container mt-5">
     <h2 class="mb-4">Katalog Produktów</h2>
-  
+
+    <div *ngIf="isLoading" class="d-flex justify-content-center my-4">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
     <ul class="list-group">
       @for (product of products; track product.id) {
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -35,12 +41,13 @@
             <div class="col-md-3 mb-3">
               <input type="number" class="form-control" [(ngModel)]="newProduct.cena" name="cena" placeholder="Cena" required>
             </div>
-            <div class="col-md-1">
-              <button class="btn btn-success w-100" type="submit">Dodaj</button>
+
+            <div class="col-md-1 mb-3 d-grid gap-2">
+              <button class="btn btn-success" type="submit">Dodaj</button>
+              <button class="btn btn-secondary" type="button" (click)="cancelAdd()">Anuluj</button>
             </div>
           </div>
         </form>
-        <button class="btn btn-secondary mt-2" (click)="cancelAdd()">Anuluj</button> <!-- 🔥 Przyciskiem anulujesz -->
       </div>
     </div>
 
@@ -60,12 +67,12 @@
             <div class="col-md-3 mb-3">
               <input type="number" class="form-control" [(ngModel)]="productBeingEdited!.cena" name="edit_cena" placeholder="Cena" required>
             </div>
-            <div class="col-md-1">
-              <button class="btn btn-success w-100" type="submit">Zapisz</button>
+            <div class="col-md-1 mb-3 d-grid gap-2">
+              <button class="btn btn-success" type="submit">Zapisz</button>
+              <button class="btn btn-secondary" type="button" (click)="cancelEdit()">Anuluj</button>
             </div>
           </div>
         </form>
-        <button class="btn btn-secondary mt-2" (click)="cancelEdit()">Anuluj</button>
       </div>
     </div>
 

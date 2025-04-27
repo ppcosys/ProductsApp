@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -8,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
+  @Output() viewChanged = new EventEmitter<string>();
 
+  onSelectView(view: string, event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.viewChanged.emit(view);
+  }
 }

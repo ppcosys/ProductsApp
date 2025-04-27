@@ -18,15 +18,23 @@ export class HomeComponent implements OnInit {
   productBeingEdited: Product | null = null;
   newProduct: Product = { id: 0, kod: '', nazwa: '', cena: 0 };
   toastMessage: string | null = null;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
   loadProducts() {
+    this.isLoading = true;
     this.productsService.getProducts().subscribe({
-      next: (response) => this.products = response,
-      error: (err) => console.error(err)
+      next: (response) => {
+        this.products = response;
+        this.stopLoadingAfterDelay();
+      },
+      error: (err) => {
+        console.error(err);
+        this.stopLoadingAfterDelay();
+      }
     });
   }
 
@@ -87,6 +95,12 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.toastMessage = null;
     }, 3000);
+  }
+
+  private stopLoadingAfterDelay() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
 }
