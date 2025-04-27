@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   isAdding: boolean = false;
   productBeingEdited: Product | null = null;
   newProduct: Product = { id: 0, kod: '', nazwa: '', cena: 0 };
+  toastMessage: string | null = null;
 
   ngOnInit(): void {
     this.loadProducts();
@@ -35,13 +36,10 @@ export class HomeComponent implements OnInit {
         this.loadProducts();
         this.resetForm();
         this.isAdding = false;
+        this.showToast('Produkt został dodany.');
       },
       error: (err) => console.error(err)
     });
-  }
-
-  onDeleteProduct(id: number) {
-    this.productsService.deleteProduct(id).subscribe(() => this.loadProducts());
   }
 
   onUpdateProduct() {
@@ -49,8 +47,14 @@ export class HomeComponent implements OnInit {
       this.productsService.updateProduct(this.productBeingEdited).subscribe(() => {
         this.loadProducts();
         this.cancelEdit();
+        this.showToast('Produkt został zaktualizowany.');
       });
     }
+  }
+
+  onDeleteProduct(id: number) {
+    this.productsService.deleteProduct(id).subscribe(() => this.loadProducts());
+    this.showToast('Produkt został usunięty.');
   }
 
   cancelEdit() {
@@ -76,6 +80,13 @@ export class HomeComponent implements OnInit {
   cancelAdd() {
     this.isAdding = false;
     this.resetForm();
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    setTimeout(() => {
+      this.toastMessage = null;
+    }, 3000);
   }
 
 }
