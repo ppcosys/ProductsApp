@@ -34,6 +34,39 @@ namespace API.Controllers
             return Created("", product);
         }
 
-        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, Product updatedProduct)
+        {
+            if (id != updatedProduct.Id)
+                return BadRequest("Product ID mismatch");
+
+            var existingProduct = await _context.Products.FindAsync(id);
+
+            if (existingProduct == null)
+                return NotFound();
+
+            existingProduct.Kod = updatedProduct.Kod;
+            existingProduct.Nazwa = updatedProduct.Nazwa;
+            existingProduct.Cena = updatedProduct.Cena;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(existingProduct);
+        }
     }
 }

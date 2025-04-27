@@ -1,31 +1,6 @@
 <div class="container mt-5">
     <h2 class="mb-4">Katalog Produktów</h2>
   
-    <!-- Formularz Dodawania Produktu -->
-    <div class="card mb-4">
-      <div class="card-header">
-        Dodaj Nowy Produkt
-      </div>
-      <div class="card-body">
-        <form (ngSubmit)="addProduct()">
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <input type="text" class="form-control" [(ngModel)]="newProduct.kod" name="kod" placeholder="Kod" required>
-            </div>
-            <div class="col-md-5 mb-3">
-              <input type="text" class="form-control" [(ngModel)]="newProduct.nazwa" name="nazwa" placeholder="Nazwa" required>
-            </div>
-            <div class="col-md-3 mb-3">
-              <input type="number" class="form-control" [(ngModel)]="newProduct.cena" name="cena" placeholder="Cena" required>
-            </div>
-            <div class="col-md-1">
-              <button class="btn btn-primary w-100" type="submit">Dodaj</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  
     <!-- Lista Produktów -->
     <ul class="list-group">
       @for (product of products; track product.id) {
@@ -34,29 +9,60 @@
             <strong>{{ product.kod }}</strong>: {{ product.nazwa }} – {{ product.cena | currency:'PLN' }}
           </div>
           <div>
-            <button class="btn btn-sm btn-warning me-2" (click)="editProduct(product)">Edytuj</button>
-            <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">Usuń</button>
+            <button class="btn btn-sm btn-warning me-2" (click)="startEditing(product)">Edytuj</button>
+            <button class="btn btn-sm btn-danger" (click)="onDeleteProduct(product.id)">Usuń</button>
           </div>
         </li>
       }
     </ul>
-  
+    
+    <!-- Przycisk Dodawania Produktu -->
+    <div class="mt-4">
+      <button class="btn btn-primary" (click)="startAdding()">Dodaj Nowy Produkt</button>
+    </div>
+
+    <!-- 🔥 Formularz dodawania produktu -->
+    <div *ngIf="isAdding" class="card mb-4 mt-4">
+      <div class="card-header bg-primary text-white">
+        Dodaj Nowy Produkt
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="onAddProduct()">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <input type="text" class="form-control" [(ngModel)]="newProduct.kod" name="kod" placeholder="Kod produktu" required>
+            </div>
+            <div class="col-md-5 mb-3">
+              <input type="text" class="form-control" [(ngModel)]="newProduct.nazwa" name="nazwa" placeholder="Nazwa produktu" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <input type="number" class="form-control" [(ngModel)]="newProduct.cena" name="cena" placeholder="Cena" required>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-success w-100" type="submit">Dodaj</button>
+            </div>
+          </div>
+        </form>
+        <button class="btn btn-secondary mt-2" (click)="cancelAdd()">Anuluj</button> <!-- 🔥 Przyciskiem anulujesz -->
+      </div>
+    </div>
+
     <!-- Formularz Edycji Produktu -->
     <div *ngIf="isEditing" class="card mt-4">
       <div class="card-header bg-warning">
         Edytuj Produkt
       </div>
       <div class="card-body">
-        <form (ngSubmit)="updateProduct()">
+        <form (ngSubmit)="onUpdateProduct()">
           <div class="row">
             <div class="col-md-3 mb-3">
-              <input type="text" class="form-control" [(ngModel)]="productBeingEdited!.kod" name="editKod" placeholder="Kod" required>
+              <input type="text" class="form-control" [(ngModel)]="productBeingEdited!.kod" name="edit_kod" placeholder="Kod" required>
             </div>
             <div class="col-md-5 mb-3">
-              <input type="text" class="form-control" [(ngModel)]="productBeingEdited!.nazwa" name="editNazwa" placeholder="Nazwa" required>
+              <input type="text" class="form-control" [(ngModel)]="productBeingEdited!.nazwa" name="edit_nazwa" placeholder="Nazwa" required>
             </div>
             <div class="col-md-3 mb-3">
-              <input type="number" class="form-control" [(ngModel)]="productBeingEdited!.cena" name="editCena" placeholder="Cena" required>
+              <input type="number" class="form-control" [(ngModel)]="productBeingEdited!.cena" name="edit_cena" placeholder="Cena" required>
             </div>
             <div class="col-md-1">
               <button class="btn btn-success w-100" type="submit">Zapisz</button>
@@ -66,5 +72,4 @@
         <button class="btn btn-secondary mt-2" (click)="cancelEdit()">Anuluj</button>
       </div>
     </div>
-  
-  </div>
+</div>

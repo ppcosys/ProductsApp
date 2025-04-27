@@ -1,17 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Product, ProductsService } from '../_services/products.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   private productsService = inject(ProductsService);
   products: Product[] = [];
+  isEditing: boolean = false;
+  isAdding: boolean = false;
+  productBeingEdited: Product | null = null;
+  newProduct: Product = { id: 0, kod: '', nazwa: '', cena: 0 };
 
   ngOnInit(): void {
     this.loadProducts();
@@ -25,17 +30,53 @@ export class HomeComponent implements OnInit {
   }
 
   onAddProduct() {
-    const newProduct: Product = { id: 0, kod: 'P999', nazwa: 'Nowy Produkt', cena: 1234 };
-    this.productsService.addProduct(newProduct).subscribe(() => this.loadProducts());
+    this.productsService.addProduct(this.newProduct).subscribe({
+      next: () => {
+        this.loadProducts();
+        this.resetForm();
+        this.isAdding = false;
+      },
+      error: (err) => console.error(err)
+    });
   }
 
   onDeleteProduct(id: number) {
     this.productsService.deleteProduct(id).subscribe(() => this.loadProducts());
   }
 
-  onUpdateProduct(product: Product) {
-    const updatedProduct = { ...product, nazwa: 'Zmieniona Nazwa' };
-    this.productsService.updateProduct(updatedProduct).subscribe(() => this.loadProducts());
+  // ✨ Funkcja do rozpoczęcia edycji
+  startEditing(product: Product) {
+    this.isEditing = true;
+    this.productBeingEdited = { ...product }; // Tworzymy kopię produktu
+  }
+
+  // ✨ Funkcja do aktualizacji produktu po kliknięciu "Zapisz"
+  onUpdateProduct() {
+    if (this.productBeingEdited) {
+      this.productsService.updateProduct(this.productBeingEdited).subscribe(() => {
+        this.loadProducts();
+        this.cancelEdit();
+      });
+    }
+  }
+
+  // ✨ Funkcja do anulowania edycji
+  cancelEdit() {
+    this.isEditing = false;
+    this.productBeingEdited = null;
+  }
+
+  resetForm() {
+    this.newProduct = { id: 0, kod: '', nazwa: '', cena: 0 };
+  }
+  
+  startAdding() {
+    this.isAdding = true;
+  }
+
+  cancelAdd() {
+    this.isAdding = false;
+    this.resetForm();
   }
 
 }
