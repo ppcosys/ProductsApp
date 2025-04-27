@@ -11,16 +11,6 @@ import { HomeComponent } from "./home/home.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  http = inject(HttpClient);
+export class AppComponent {
   title = 'Products Catalog';
-  products: any;
-  
-  ngOnInit(): void {
-   this.http.get('http://localhost:5000/api/products').subscribe({
-    next: response => this.products = response,
-    error: error => console.log(error),
-    complete: () => console.log('Request has completed')
-   }) 
-  }
 }

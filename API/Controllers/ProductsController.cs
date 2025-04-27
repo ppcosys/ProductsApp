@@ -53,7 +53,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateProduct(int id, Product updatedProduct)
         {
             if (id != updatedProduct.Id)
-                return BadRequest("Product ID mismatch");
+                return BadRequest("Niewłaściwe Id produktu");
 
             var existingProduct = await _context.Products.FindAsync(id);
 

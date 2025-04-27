@@ -44,13 +44,6 @@ export class HomeComponent implements OnInit {
     this.productsService.deleteProduct(id).subscribe(() => this.loadProducts());
   }
 
-  // ✨ Funkcja do rozpoczęcia edycji
-  startEditing(product: Product) {
-    this.isEditing = true;
-    this.productBeingEdited = { ...product }; // Tworzymy kopię produktu
-  }
-
-  // ✨ Funkcja do aktualizacji produktu po kliknięciu "Zapisz"
   onUpdateProduct() {
     if (this.productBeingEdited) {
       this.productsService.updateProduct(this.productBeingEdited).subscribe(() => {
@@ -60,7 +53,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // ✨ Funkcja do anulowania edycji
   cancelEdit() {
     this.isEditing = false;
     this.productBeingEdited = null;
@@ -72,6 +64,13 @@ export class HomeComponent implements OnInit {
   
   startAdding() {
     this.isAdding = true;
+    this.isEditing = false;
+  }
+
+  startEditing(product: Product) {
+    this.isEditing = true;
+    this.isAdding = false;
+    this.productBeingEdited = { ...product };
   }
 
   cancelAdd() {

@@ -1,7 +1,6 @@
 <div class="container mt-5">
     <h2 class="mb-4">Katalog Produktów</h2>
   
-    <!-- Lista Produktów -->
     <ul class="list-group">
       @for (product of products; track product.id) {
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -16,12 +15,10 @@
       }
     </ul>
     
-    <!-- Przycisk Dodawania Produktu -->
     <div class="mt-4">
       <button class="btn btn-primary" (click)="startAdding()">Dodaj Nowy Produkt</button>
     </div>
 
-    <!-- 🔥 Formularz dodawania produktu -->
     <div *ngIf="isAdding" class="card mb-4 mt-4">
       <div class="card-header bg-primary text-white">
         Dodaj Nowy Produkt
@@ -47,7 +44,6 @@
       </div>
     </div>
 
-    <!-- Formularz Edycji Produktu -->
     <div *ngIf="isEditing" class="card mt-4">
       <div class="card-header bg-warning">
         Edytuj Produkt
