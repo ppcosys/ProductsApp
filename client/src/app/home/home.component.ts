@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  
+  products = [
+    { id: 12, kod: 'P012', nazwa: 'Laptop Home', cena: 2999 }
+  ]
 }

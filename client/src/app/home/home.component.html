@@ -8,6 +8,17 @@
         </div>
     </div>
 
+    <p>Kod do dodania:</p>
+<ul>
+    @for (product of products; track product.id) {
+        <li>
+            {{product.id}} - {{product.nazwa}}
+        </li>
+    }
+    
+</ul>
+
+
     <div class="container">
         <div class="col-4">
             <p>Add product</p>
