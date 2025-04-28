@@ -29,7 +29,10 @@ using (var scope = app.Services.CreateScope())
         db.Products.AddRange(
             new Product { Id = 1, Kod = "P001", Nazwa = "Laptop", Cena = 2999 },
             new Product { Id = 2, Kod = "P002", Nazwa = "Telefon", Cena = 1999 },
-            new Product { Id = 3, Kod = "P003", Nazwa = "Tablet", Cena = 1599 }
+            new Product { Id = 3, Kod = "P003", Nazwa = "Tablet", Cena = 1599 },
+            new Product { Id = 4, Kod = "P004", Nazwa = "Monitor", Cena = 1299 },
+            new Product { Id = 5, Kod = "P005", Nazwa = "Klawiatura", Cena = 299 },
+            new Product { Id = 6, Kod = "P006", Nazwa = "Mysz", Cena = 199 }
         );
 
         db.SaveChanges();
