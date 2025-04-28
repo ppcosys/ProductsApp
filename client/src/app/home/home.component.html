@@ -30,20 +30,48 @@
         Dodaj Nowy Produkt
       </div>
       <div class="card-body">
-        <form (ngSubmit)="onAddProduct()">
+        <form #addProductForm="ngForm" (ngSubmit)="onAddProduct(addProductForm)">
           <div class="row">
             <div class="col-md-3 mb-3">
-              <input type="text" class="form-control" [(ngModel)]="newProduct.kod" name="kod" placeholder="Kod produktu" required>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="newProduct.kod"
+                name="kod"
+                placeholder="Kod produktu"
+                required
+                #kodInput="ngModel"
+                [class.is-invalid]="kodInput.invalid && kodInput.touched"
+              >
             </div>
             <div class="col-md-5 mb-3">
-              <input type="text" class="form-control" [(ngModel)]="newProduct.nazwa" name="nazwa" placeholder="Nazwa produktu" required>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="newProduct.nazwa"
+                name="nazwa"
+                placeholder="Nazwa produktu"
+                required
+                #nazwaInput="ngModel"
+                [class.is-invalid]="nazwaInput.invalid && nazwaInput.touched"
+              >
             </div>
             <div class="col-md-3 mb-3">
-              <input type="number" class="form-control" [(ngModel)]="newProduct.cena" name="cena" placeholder="Cena" required>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newProduct.cena"
+                name="cena"
+                placeholder="Cena"
+                required
+                min="0"
+                #cenaInput="ngModel"
+                [class.is-invalid]="cenaInput.invalid && cenaInput.touched"
+              >
             </div>
-
+    
             <div class="col-md-1 mb-3 d-grid gap-2">
-              <button class="btn btn-success" type="submit">Dodaj</button>
+              <button class="btn btn-success" type="submit" [disabled]="addProductForm.invalid">Dodaj</button>
               <button class="btn btn-secondary" type="button" (click)="cancelAdd()">Anuluj</button>
             </div>
           </div>

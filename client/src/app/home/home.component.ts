@@ -38,7 +38,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onAddProduct() {
+  onAddProduct(form: any) {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      return;
+    }
+  
     this.productsService.addProduct(this.newProduct).subscribe({
       next: () => {
         this.loadProducts();
